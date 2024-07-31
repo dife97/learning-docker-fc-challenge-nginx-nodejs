@@ -1,0 +1,30 @@
+services:
+
+  app:
+    build: 
+      context: node
+    container_name: app
+    volumes:
+      - ./node:/usr/src/app
+    networks:
+      - nodenetwork
+    tty: true
+    ports:
+      - "3000:3000"
+
+  database: 
+    image: mysql:latest
+    container_name: database
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - nodenetwork
+
+networks:
+  nodenetwork:
+    driver: bridge
